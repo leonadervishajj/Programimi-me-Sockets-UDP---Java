@@ -3,7 +3,7 @@
 Ky projekt demonstron komunikimin në rrjet duke përdorur UDP(User Datagram Protocol) në gjuhën programuese Java. 
 Qëllimi është të implementohet një sistem i thjeshtë Client - Server, ku klienti dërgon mesazh dhe serveri kthen përgjigje.
 
-***🌐 Çka është UDP?***
+*🌐 Çka është UDP?*
 
   UDP është një protokoll komuninikimi në rrjet që : 
   - nuk kërkon lidhje paraprake(connections),
@@ -12,7 +12,7 @@ Qëllimi është të implementohet një sistem i thjeshtë Client - Server, ku k
 
 Përdoret zakonisht në aplikacioni si *streaming*,*gaming*, dhe *komunikim* real-time. 
 
-***Funksionalitete e Serverit***
+*Funksionalitete e Serverit*
 
 - Pranon mesazhe nga shumë klientë përmes UDP
 - Identifikon klientët përmes IP dhe portit
@@ -22,5 +22,4 @@ Përdoret zakonisht në aplikacioni si *streaming*,*gaming*, dhe *komunikim* rea
 - Mbyll klientët joaktivë pas një kohe të caktuar
 - Lejon rikthimin e klientëve
 - Ofron qasje në file për klientët admin
-
 
