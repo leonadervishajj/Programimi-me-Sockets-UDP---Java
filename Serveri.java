@@ -1,18 +1,18 @@
-public class Serveri {
 import java.net.*;
 import java.util.*;
 
-public class UDPServer {
+public class UDPServer{
 
-    private static final int PORT = 5000;
+    private static final String Server_IP = "127.0.0.1";
+    private static final int SERVER_PORT = 5000;
+
     private static final int MAX_CLIENTS = 3;
-
     private static Set<String> clients = new HashSet<>();
 
     public static void main(String[] args) {
         try {
-            DatagramSocket socket = new DatagramSocket(PORT);
-            System.out.println("UDP Server running on port " + PORT);
+            DatagramSocket socket = new DatagramSocket(SERVER_PORT, InetAddress.getbyName(Server_IP));
+            System.out.println("UDP Server running on port " + SERVER_IP + ":" + SERVER_PORT);
 
             byte[] buffer = new byte[1024];
 
@@ -25,7 +25,7 @@ public class UDPServer {
 
                 System.out.println("Message from " + clientAddress + ": " + msg);
 
-                // kontrollo numrin e klientëve
+                
                 if (!clients.contains(clientAddress)) {
                     if (clients.size() >= MAX_CLIENTS) {
                         String response = "Server full!";
@@ -37,7 +37,7 @@ public class UDPServer {
                     }
                 }
 
-                // përgjigje normale
+                
                 String response = "Server received: " + msg;
                 sendResponse(socket, packet, response);
             }
@@ -59,24 +59,22 @@ public class UDPServer {
 
         socket.send(response);
     }
-}
+
 private static String handleRequest(String msg) {
 
-    msg = msg.trim();
+     switch (message.toLowerCase()) {
 
-    if (msg.equalsIgnoreCase("LIST")) {
-        return listFiles();
+            case "hello":
+                return "Përshëndetje nga serveri!";
+
+            case "time":
+                return new Date().toString();
+
+            case "bye":
+                return "Mirupafshim!";
+
+            default:
+                return "Kërkesë e panjohur";
+        }
     }
-
-    if (msg.startsWith("READ")) {
-        return readFile(msg);
-    }
-
-    if (msg.startsWith("DELETE")) {
-        return deleteFile(msg);
-    }
-
-    return "Unknown request";
 }
-}
-
