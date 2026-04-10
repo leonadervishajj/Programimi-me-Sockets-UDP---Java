@@ -1,80 +1,58 @@
 import java.net.*;
 import java.util.*;
 
-public class UDPServer{
-
-    private static final String Server_IP = "127.0.0.1";
-    private static final int SERVER_PORT = 5000;
-
-    private static final int MAX_CLIENTS = 3;
-    private static Set<String> clients = new HashSet<>();
+public class UDPServer {
 
     public static void main(String[] args) {
+
         try {
-            DatagramSocket socket = new DatagramSocket(SERVER_PORT, InetAddress.getbyName(Server_IP));
-            System.out.println("UDP Server running on port " + SERVER_IP + ":" + SERVER_PORT);
+            // Variablat
+            String ipAdresa = "0.0.0.0";
+            int porti = 9876;
+
+            int maxKliente = 3;
+
+            DatagramSocket socket = new DatagramSocket(porti);
 
             byte[] buffer = new byte[1024];
 
+            Set<String> kliente = new HashSet<>();
+
+            System.out.println("Serveri UDP është startuar në portin " + porti);
+
             while (true) {
+
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 socket.receive(packet);
 
-                String msg = new String(packet.getData(), 0, packet.getLength());
-                String clientAddress = packet.getAddress().toString() + ":" + packet.getPort();
+                String klientID = packet.getAddress() + ":" + packet.getPort();
 
-                System.out.println("Message from " + clientAddress + ": " + msg);
+                String mesazhi = new String(packet.getData(), 0, packet.getLength());
 
-                
-                if (!clients.contains(clientAddress)) {
-                    if (clients.size() >= MAX_CLIENTS) {
-                        String response = "Server full!";
-                        sendResponse(socket, packet, response);
-                        continue;
-                    } else {
-                        clients.add(clientAddress);
-                        System.out.println("New client added: " + clientAddress);
-                    }
+                // Nëse klient i ri dhe limiti u tejkalua
+                if (!kliente.contains(klientID) && kliente.size() >= maxKliente) {
+
+                    String msg = "Serveri është i mbushur!";
+                    byte[] data = msg.getBytes();
+
+                    DatagramPacket reject = new DatagramPacket(
+                            data,
+                            data.length,
+                            packet.getAddress(),
+                            packet.getPort()
+                    );
+
+                    socket.send(reject);
+                    continue;
                 }
 
-                
-                String response = "Server received: " + msg;
-                sendResponse(socket, packet, response);
+                kliente.add(klientID);
+
+                System.out.println("[" + klientID + "] " + mesazhi);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    private static void sendResponse(DatagramSocket socket, DatagramPacket packet, String msg) throws Exception {
-        byte[] responseData = msg.getBytes();
-
-        DatagramPacket response = new DatagramPacket(
-                responseData,
-                responseData.length,
-                packet.getAddress(),
-                packet.getPort()
-        );
-
-        socket.send(response);
-    }
-
-private static String handleRequest(String msg) {
-
-     switch (Message.toLowerCase()) {
-
-            case "hello":
-                return "Përshëndetje nga serveri!";
-
-            case "time":
-                return new Date().toString();
-
-            case "bye":
-                return "Mirupafshim!";
-
-            default:
-                return "Kërkesë e panjohur";
         }
     }
 }
