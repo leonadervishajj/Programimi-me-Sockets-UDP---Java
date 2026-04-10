@@ -62,7 +62,7 @@ public class UDPServer{
 
 private static String handleRequest(String msg) {
 
-     switch (message.toLowerCase()) {
+     switch (Message.toLowerCase()) {
 
             case "hello":
                 return "Përshëndetje nga serveri!";
