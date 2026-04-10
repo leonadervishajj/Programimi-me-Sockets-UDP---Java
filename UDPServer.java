@@ -6,8 +6,8 @@ public class UDPServer {
     public static void main(String[] args) {
 
         try {
-            // Variablat
-            String ipAdresa = "0.0.0.0";
+            
+            String IP_ADDRESS = "0.0.0.0";
             int porti = 9876;
 
             int maxKliente = 3;
@@ -29,7 +29,7 @@ public class UDPServer {
 
                 String mesazhi = new String(packet.getData(), 0, packet.getLength());
 
-                // Nëse klient i ri dhe limiti u tejkalua
+                
                 if (!kliente.contains(klientID) && kliente.size() >= maxKliente) {
 
                     String msg = "Serveri është i mbushur!";
