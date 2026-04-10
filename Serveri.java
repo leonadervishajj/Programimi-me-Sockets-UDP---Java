@@ -1,4 +1,4 @@
-public class Serveri{
+public class Serveri {
 import java.net.*;
 import java.util.*;
 
@@ -59,6 +59,24 @@ public class UDPServer {
 
         socket.send(response);
     }
+}
+private static String handleRequest(String msg) {
+
+    msg = msg.trim();
+
+    if (msg.equalsIgnoreCase("LIST")) {
+        return listFiles();
+    }
+
+    if (msg.startsWith("READ")) {
+        return readFile(msg);
+    }
+
+    if (msg.startsWith("DELETE")) {
+        return deleteFile(msg);
+    }
+
+    return "Unknown request";
 }
 }
 
