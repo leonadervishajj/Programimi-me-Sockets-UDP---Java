@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MesazhetNgaKlienti {
     private List<String> messages = new ArrayList<>();
-    public void addMessage(String msg){
+    public void addMessage(String msg){    // behet ruajtja ne memorie
         messages.add(msg);
         saveToFile(msg);
     }
